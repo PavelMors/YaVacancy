@@ -22,23 +22,54 @@ body{
     background: #dfdfdf;
     overflow: hidden;
     font-size:100%;
+    position: relative;
+
 
 }
 
-.slide{
-    width: 80%;
-    height: 80%;
+.presentation .slide{
+    display: none;
+    width: 900px;
+    height: 550px;
     overflow: hidden;
     background: #fff;
-    margin: 0 5%;
-    display: inline-block;
-    padding: 5%;
-    vertical-align: middle;
-    display: inline-block;
+    position: absolute;
+    margin-top: -275px;
+    top:50%;
+    left:50%;
+    margin-left: -450px;
+}
+
+
+
+.slide.active{
+    display: block;
+}
+
+.slide .content{
+    padding: 0 5%;
 }
 
 .navigation{
     position: absolute;
     top:0;
+    left:50%;
+    width: 750px;
+    height: 120px;
+    margin-left: -375px;
+    z-index: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-top: -110px;
+}
+
+.navigation .slide{
+    width: 220px;
+    height: 110px;
+    font-size:45%;
+    display: inline-block;
+    background-color: #fff;
+    vertical-align: top;
+    overflow: hidden;
 
 }
