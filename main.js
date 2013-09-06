@@ -25,8 +25,8 @@ function add_mini_slide(){
     add_mini_slide();
 
     function navigate (slide_num){
-    var active_slide = $("div.slide.active");
-    var next_slide =  $("div.slide[data-num =" +slide_num+"]");
+    var active_slide = $(".presentation .slide.active");
+    var next_slide =  $(".presentation .slide[data-num =" +slide_num+"]");
     var delta_num = active_slide.attr("data-num") - slide_num;
     var delta_slide = window_w +slide_w;
     var navDirect=-1;
@@ -39,7 +39,7 @@ function add_mini_slide(){
                   .addClass("active");
 
         active_slide.animate({"marginLeft": +delta_slide*-navDirect},
-                              function(){$(this).removeClass("active")
+                              function(){active_slide.removeClass("active")
                                                 .css({"display":"none"})
                               })
     }
@@ -49,18 +49,34 @@ function add_mini_slide(){
         (hide_nav==0)?
             ($(this).animate({"marginTop":"10px"}))&&(hide_nav=1):
             ($(this).animate({"marginTop":"-110px"}))&&(hide_nav=0)
-        })
+        });
 
 
+    $(".mini_slide_inner").on("scrolling", function moveObject(event){
+        this.addEventListener('DOMMouseScroll', moveObject, false);
+        this.onmousewheel = moveObject;
+        var delta = 0;
+        delta = event.detail/-3 || event.wheelDelta/120;
+        var currPos=$(this).css("left").slice(0,-2);
+        currPos-=(delta*20);
+        (currPos<=0 && currPos>-($(this).width()-$(".navigation").width()))&&
+        ($(this).css({"left":currPos}))
+       /* var nav_w = $(".nav").width()
+        var ul_width_active = $(".mini_slide_inner").width() - window_w;
 
+        (currPos >=0 && delta<0)?currPos=0 : currPos-=(delta*20);
+        (currPos < -ul_width_active && delta>0)?currPos = -ul_width_active : $(this).offset({left:currPos});*/
+      });
+
+    $(".mini_slide_inner").trigger("scrolling");
 
     $(window).keypress(function (e) {
     var code = (e.keyCode ? e.keyCode : e.which);
-    var next_slide_num = parseInt($("div.slide.active").attr("data-num"));
-    (code == 39 || code == 38)&& navigate(next_slide_num+1);
+    var next_slide_num = parseInt($(".presentation .slide.active").attr("data-num"));
+    (code == 39 || code == 38) && navigate(next_slide_num+1);
     (code == 37 || code == 40)&& navigate(next_slide_num-1);
-
     })
+
 
 
 })
