@@ -8,13 +8,6 @@ body{
     padding: 0;
 }
 
-.middler{
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-
-}
-
 .presentation{
     width: 100%;
     height: 100%;
@@ -23,8 +16,6 @@ body{
     overflow: hidden;
     font-size:100%;
     position: relative;
-
-
 }
 
 .presentation .slide{
@@ -38,9 +29,12 @@ body{
     top:50%;
     left:50%;
     margin-left: -450px;
+
+
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
-
-
 
 .slide.active{
     display: block;
@@ -50,7 +44,18 @@ body{
     padding: 0 5%;
 }
 
+.status{
+    width: 10px;
+    height: 2px;
+    background-color: #f00;
+    position: absolute;
+    bottom:15px;
+    left: 15%;
+}
+
+
 .navigation{
+    background-color: rgba(0,0,0,0.5);
     position: absolute;
     top:0;
     left:50%;
@@ -60,7 +65,13 @@ body{
     z-index: 1;
     overflow: hidden;
     white-space: nowrap;
-    margin-top: -110px;
+    margin-top: -116px;
+
+
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+
 }
 
 .navigation .slide{
@@ -71,11 +82,22 @@ body{
     background-color: #fff;
     vertical-align: top;
     overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    margin:3px 3px 3px 0;
+}
+.navigation .slide:first-child{
+    margin-left: 0;
+}
 
+
+.navigation .slide:hover{
+    border-color: #f00;
 }
 
 .mini_slide_inner{
     position: absolute;
     left:0;
     top:0;
+
 }

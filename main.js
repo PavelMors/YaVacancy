@@ -8,9 +8,37 @@ var slide_h =  slide.height();
 
 var hide_nav =0;
 
+/*function add_html(url){
+
+    *//*$.ajax({
+        url: url,
+        dataType: "html",
+        success: function(msg){
+            console.log($(msg+" div.slide"));
+
+
+ *//**//*           while(msg.indexOf("h1",n)){
+               var next_n = msg.indexOf("h1",n+1);
+               console.log(next_n);
+               tt = msg.substring(n-1 , next_n );
+               console.log(tt);
+               n = msg.indexOf("h1",next_n);
+            }*//**//*
+        }})*//*
+    $(".presentation").load(url+ " .slide",function(){
+        $(".slide:first").addClass("active");
+
+    });
+}*/
+
+
+
+/*add_html("html/1.html");*/
+
 
 
 function add_data_num(){
+    console.log(slide[1]);
     for(var i=0; i<slide.length;i++){
         $("div.slide:eq("+i+")").attr("data-num",i);
     }
@@ -18,11 +46,17 @@ function add_data_num(){
     add_data_num();
 
 function add_mini_slide(){
-    var html_code = $(".presentation").html();
-    $(".mini_slide_inner").append(html_code);
+     slide.clone().prependTo(".mini_slide_inner");
 }
-
     add_mini_slide();
+
+
+function status_show(slide_num){
+    var status_step = slide_w/slide.length;
+   $(".status").animate({"width":(slide_num+1)*status_step})
+   console.log(slide_num+"   "+status_step)
+}
+status_show(0);
 
     function navigate (slide_num){
     var active_slide = $(".presentation .slide.active");
@@ -41,7 +75,8 @@ function add_mini_slide(){
         active_slide.animate({"marginLeft": +delta_slide*-navDirect},
                               function(){active_slide.removeClass("active")
                                                 .css({"display":"none"})
-                              })
+                              });
+         status_show(+slide_num);
     }
 }
 
@@ -78,5 +113,10 @@ function add_mini_slide(){
     })
 
 
+    $(".navigation .slide").click(function(){
+        var nav_next_slide = $(this).attr("data-num");
+        (nav_next_slide != $(".presentation .slide.active").attr("data-num")) &&
+        navigate(nav_next_slide);
+    })
 
 })
