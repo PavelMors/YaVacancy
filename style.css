@@ -6,13 +6,14 @@ html,body{
 body{
     margin: 0;
     padding: 0;
+    background: #dfdfdf;
+    overflow: hidden;
 }
 
 .presentation{
     width: 100%;
     height: 100%;
     white-space: nowrap;
-    background: #dfdfdf;
     overflow: hidden;
     font-size:100%;
     position: relative;
@@ -39,13 +40,12 @@ body{
 .slide.active{
     display: block;
 }
-
-.slide .content{
+.present h1, .present section,
+.slide h1, .slide section{
     padding: 0 5%;
 }
 
 .status{
-    width: 10px;
     height: 2px;
     background-color: #f00;
     position: absolute;
@@ -100,4 +100,30 @@ body{
     left:0;
     top:0;
 
+}
+
+.present_change{
+    text-align: center;
+    margin-top: 5%;
+}
+.present{
+    display: inline-block;
+    width: 300px;
+    height: 200px;
+    margin: 5px;
+    background-color:#fff;
+    text-align: left;
+    cursor: pointer;
+
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius: 5px;
+}
+
+.present:hover{
+    background-color: #f3f3f3;
 }

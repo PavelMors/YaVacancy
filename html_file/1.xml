@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding = "utf-8"?>
+<body>
+<slide>
+    <h1>slidel</h1>
+    <content>
+        <a href="">asjdjs</a>
+        <p>sdaasdsda</p>
+    </content>
+</slide>
+<slide>
+    <h1>slide2</h1>
+    <content>
+        <li>asjdjs</li>
+        <li>sdaasdsda</li>
+    </content>
+</slide>
+<slide>
+    <h1>slide3</h1>
+    <content>
+        <p>asjdjs</p>
+        <p>sdaasdsda</p>
+    </content>
+</slide>
+<slide>
+    <h1>slide4</h1>
+    <content>
+        <img src=""></img>
+        <p></p>
+    </content>
+</slide>
+<slide>
+    <h1>slide5</h1>
+    <content>
+        <img src=""></img>
+        <p></p>
+    </content>
+</slide>
+</body>

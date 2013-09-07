@@ -1,122 +1,192 @@
 $(function() {
 
-var window_h = $(window).height();
-var window_w = $(window).width();
-var slide = $(".slide");
-var slide_w =  slide.width();
-var slide_h =  slide.height();
-
-var hide_nav =0;
-
-/*function add_html(url){
-
-    *//*$.ajax({
-        url: url,
-        dataType: "html",
-        success: function(msg){
-            console.log($(msg+" div.slide"));
+function slide_handler(){
+    var window_h = $(window).height(),
+        window_w = $(window).width(),
+        slide = $(".slide"),
+        slide_w =  slide.width(),
+        slide_h =  slide.height(),
+        hide_nav =0;
 
 
- *//**//*           while(msg.indexOf("h1",n)){
-               var next_n = msg.indexOf("h1",n+1);
-               console.log(next_n);
-               tt = msg.substring(n-1 , next_n );
-               console.log(tt);
-               n = msg.indexOf("h1",next_n);
-            }*//**//*
-        }})*//*
-    $(".presentation").load(url+ " .slide",function(){
-        $(".slide:first").addClass("active");
+    console.log("11");
+    self = {
+         preedit_slide: function(){
+             for(var i=0; i<slide.length;i++){
+                $("div.slide:eq("+i+")").attr("data-num",i);
+             }
+             slide.clone().prependTo(".mini_slide_inner");
+         },
 
-    });
-}*/
+         status_show : function(slide_num){
+             var status_step = slide_w/slide.length;
+             $(".status").animate({"width":(slide_num+1)*status_step})
+         },
+
+         navigate: function(slide_num){
+             var active_slide = $(".presentation .slide.active"),
+                 next_slide =  $(".presentation .slide[data-num =" +slide_num+"]"),
+                 delta_num = active_slide.attr("data-num") - slide_num,
+                 delta_slide = window_w +slide_w,
+                 navDirect=-1;
+
+             if (slide_num >=0 && slide_num <slide.length){
+                 (delta_num <0)&& (navDirect=1);
+
+                 next_slide.css({"marginLeft":delta_slide*navDirect,"display":"block"})
+                            .animate({"marginLeft":-slide_w/2})
+                           .addClass("active");
+
+                 active_slide.animate({"marginLeft": +delta_slide*-navDirect},
+                                    function(){active_slide.removeClass("active")
+                                               .css({"display":"none"})
+                                    });
+                 self.status_show(+slide_num);
+             }
+         },
+
+         bindEvents: function(){
+             $(".navigation").bind("click",function(){
+                 (hide_nav==0)?
+                     ($(this).animate({"marginTop":"10px"}))&&(hide_nav=1):
+                     ($(this).animate({"marginTop":"-110px"}))&&(hide_nav=0)
+             });
+
+             $(".mini_slide_inner").on("scrolling", function moveObject(event){
+                 var currPos=$(this).css("left").slice(0,-2),
+                     delta = 0;
+
+                 this.addEventListener('DOMMouseScroll', moveObject, false);
+                 this.onmousewheel = moveObject;
+                 delta = event.detail/-3 || event.wheelDelta/120;
+
+                 currPos-=(delta*20);
+                 (currPos<=0 && currPos>-($(this).width()-$(".navigation").width()))&&
+                 ($(this).css({"left":currPos}))
+             });
+             $(".mini_slide_inner").trigger("scrolling");
+
+             $(window).keypress(function (e) {
+                 var code = (e.keyCode ? e.keyCode : e.which);
+                 var next_slide_num = parseInt($(".presentation .slide.active").attr("data-num"));
+                 (code == 39 || code == 38) && self.navigate(next_slide_num+1);
+                 (code == 37 || code == 40)&& self.navigate(next_slide_num-1);
+             })
+
+             $(".navigation .slide").bind("click",function(){
+                 var nav_next_slide = $(this).attr("data-num");
+                 (nav_next_slide != $(".presentation .slide.active").attr("data-num")) &&
+                 self.navigate(nav_next_slide);
+             })
+         },
+
+         init: function(){
+             self.preedit_slide();
+             self.bindEvents();
+             self.status_show(0);
+         }
+    };
+    return self.init();
+}
 
 
+/*    function load_html(url){
+        $(".presentation").load(url+ " .slide",function(){
+            $(".slide:first").addClass(function(){
+                slide_handler();
+                return "active";
+            })
+        })
+    };*/
 
-/*add_html("html/1.html");*/
+/*    load_html("html_file/1.html");*/
+/*    var kk = $(".presentation").load("html/2.html");
+    console.log(kk)*/
 
+    function load_xml(data_file){
+        var url = "html_file/"+data_file+".xml";
+        $.ajax({
+            url: url,
+            dataType: "xml",
+            success: function(xml){
+                $(xml).find("slide").each(function(i){
+                    var _this = $(this),
+                        h1 = _this.find("h1").text(),
+                        content = _this.find("content").text();
 
-
-function add_data_num(){
-    console.log(slide[1]);
-    for(var i=0; i<slide.length;i++){
-        $("div.slide:eq("+i+")").attr("data-num",i);
+                    $("<div class='slide'></div>").html("<h1>"+h1+"</h1><section>"+content+"</section>").appendTo(".presentation");
+                    (i==0) && $(".slide").addClass("active");
+                })
+            },
+            error: function(error){
+                console.log(error)
+            },
+            complete: function(){
+                slide_handler();
+                $(".navigation").fadeIn("def");
+                $(".presentation").fadeIn("def");
+                $(".status").fadeIn("def");
+            }
+        });
     }
-}
-    add_data_num();
 
-function add_mini_slide(){
-     slide.clone().prependTo(".mini_slide_inner");
-}
-    add_mini_slide();
+/*    load_xml();*/
 
-
-function status_show(slide_num){
-    var status_step = slide_w/slide.length;
-   $(".status").animate({"width":(slide_num+1)*status_step})
-   console.log(slide_num+"   "+status_step)
-}
-status_show(0);
-
-    function navigate (slide_num){
-    var active_slide = $(".presentation .slide.active");
-    var next_slide =  $(".presentation .slide[data-num =" +slide_num+"]");
-    var delta_num = active_slide.attr("data-num") - slide_num;
-    var delta_slide = window_w +slide_w;
-    var navDirect=-1;
-
-    if (slide_num >=0 && slide_num <slide.length){
-        (delta_num <0)&& (navDirect=1);
-
-        next_slide.css({"marginLeft":delta_slide*navDirect,"display":"block"});
-        next_slide.animate({"marginLeft":-slide_w/2})
-                  .addClass("active");
-
-        active_slide.animate({"marginLeft": +delta_slide*-navDirect},
-                              function(){active_slide.removeClass("active")
-                                                .css({"display":"none"})
-                              });
-         status_show(+slide_num);
-    }
-}
-
-    $(".navigation").click(function(){
-        (hide_nav==0)?
-            ($(this).animate({"marginTop":"10px"}))&&(hide_nav=1):
-            ($(this).animate({"marginTop":"-110px"}))&&(hide_nav=0)
+      function change_present(file_num,n){
+        $(".navigation").hide();
+        $(".presentation").hide();
+        $(".status").hide();
+        $(".present_change").hide();
+        $.ajax({
+            url: "html_file/"+file_num+".xml",
+            dataType: "xml",
+            success: function(xml){
+                        $(xml).find("slide").each(function(i){
+                        var _this = $(this),
+                            h1 = _this.find("h1").text(),
+                            content = _this.find("content").text();
+                        if(i>0)return;
+                        $("<div class='present' data-file='"+file_num+"'></div>").html("<h1>"+h1+"</h1><section>"+content+"</section>").appendTo(".present_change");
+                        })
+            },
+            error: function(error){
+                n =1;
+                $(".present_change").fadeIn("def");
+            },
+            complete:function(){
+                file_num++;
+                (n==0) && (change_present(file_num,n))
+            }
         });
 
-
-    $(".mini_slide_inner").on("scrolling", function moveObject(event){
-        this.addEventListener('DOMMouseScroll', moveObject, false);
-        this.onmousewheel = moveObject;
-        var delta = 0;
-        delta = event.detail/-3 || event.wheelDelta/120;
-        var currPos=$(this).css("left").slice(0,-2);
-        currPos-=(delta*20);
-        (currPos<=0 && currPos>-($(this).width()-$(".navigation").width()))&&
-        ($(this).css({"left":currPos}))
-       /* var nav_w = $(".nav").width()
-        var ul_width_active = $(".mini_slide_inner").width() - window_w;
-
-        (currPos >=0 && delta<0)?currPos=0 : currPos-=(delta*20);
-        (currPos < -ul_width_active && delta>0)?currPos = -ul_width_active : $(this).offset({left:currPos});*/
-      });
-
-    $(".mini_slide_inner").trigger("scrolling");
-
-    $(window).keypress(function (e) {
-    var code = (e.keyCode ? e.keyCode : e.which);
-    var next_slide_num = parseInt($(".presentation .slide.active").attr("data-num"));
-    (code == 39 || code == 38) && navigate(next_slide_num+1);
-    (code == 37 || code == 40)&& navigate(next_slide_num-1);
-    })
+    }
 
 
-    $(".navigation .slide").click(function(){
-        var nav_next_slide = $(this).attr("data-num");
-        (nav_next_slide != $(".presentation .slide.active").attr("data-num")) &&
-        navigate(nav_next_slide);
-    })
+    setTimeout(function(){
+        $(".present").click(function(){
+            console.log($(this));
+            var data_file=$(this).attr("data-file");
+            console.log(data_file);
+            load_xml(data_file);
+        });
+    },2000);
+
+    change_present(1,0);
+
 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
