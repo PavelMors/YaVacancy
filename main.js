@@ -1,55 +1,67 @@
 $(function() {
 
-function slide_handler(){
+function slide_handler(){                           //функция работы с загруженой призентацией
     var window_h = $(window).height(),
         window_w = $(window).width(),
         slide = $(".slide"),
         slide_w =  slide.width(),
         slide_h =  slide.height(),
-        hide_nav =0;
+        hide_nav = 0,
+        slide_click =1;
 
-
-    console.log("11");
     self = {
-         preedit_slide: function(){
+         preedit_slide: function(){                   //создание полосы выбора слайда.
              for(var i=0; i<slide.length;i++){
                 $("div.slide:eq("+i+")").attr("data-num",i);
              }
              slide.clone().prependTo(".mini_slide_inner");
          },
+         status_position: function(){                  //позиционирование полосы загрузки слайдов
+             $(".status").css({"top":window_h/2+slide_h/2,"left":window_w/2-slide_w/2});
+         },
 
-         status_show : function(slide_num){
+         status_show : function(slide_num){             //функция работы полосы загрузки слайдов
              var status_step = slide_w/slide.length;
              $(".status").animate({"width":(slide_num+1)*status_step})
          },
 
-         navigate: function(slide_num){
+         navigate: function(slide_num){                 //функция навигации по слайдам
              var active_slide = $(".presentation .slide.active"),
                  next_slide =  $(".presentation .slide[data-num =" +slide_num+"]"),
                  delta_num = active_slide.attr("data-num") - slide_num,
                  delta_slide = window_w +slide_w,
                  navDirect=-1;
 
+             if  (slide_click==1){
+                 slide_click =0;
              if (slide_num >=0 && slide_num <slide.length){
                  (delta_num <0)&& (navDirect=1);
 
                  next_slide.css({"marginLeft":delta_slide*navDirect,"display":"block"})
                             .animate({"marginLeft":-slide_w/2})
-                           .addClass("active");
+                            .addClass("active");
 
                  active_slide.animate({"marginLeft": +delta_slide*-navDirect},
                                     function(){active_slide.removeClass("active")
-                                               .css({"display":"none"})
+                                               .css({"display":"none"});
+                                        slide_click = 1;
                                     });
+
                  self.status_show(+slide_num);
              }
-         },
+         }},
 
-         bindEvents: function(){
-             $(".navigation").bind("click",function(){
-                 (hide_nav==0)?
-                     ($(this).animate({"marginTop":"10px"}))&&(hide_nav=1):
-                     ($(this).animate({"marginTop":"-110px"}))&&(hide_nav=0)
+         bindEvents: function(){                            //обработка событий
+             $(".button").bind("click",function(){
+                 if(hide_nav==0){
+                     $(".navigation").animate({"marginTop":"10px"});
+                     hide_nav=1;
+                     $(".button").animate({"top":"123px"})
+                 }else{
+                     $(".navigation").animate({"marginTop":"-120px"});
+                     hide_nav=0;
+                     $(".button").animate({"top":"0"})
+                 }
              });
 
              $(".mini_slide_inner").on("scrolling", function moveObject(event){
@@ -67,43 +79,33 @@ function slide_handler(){
              $(".mini_slide_inner").trigger("scrolling");
 
              $(window).keypress(function (e) {
+                 e.preventDefault();
                  var code = (e.keyCode ? e.keyCode : e.which);
                  var next_slide_num = parseInt($(".presentation .slide.active").attr("data-num"));
-                 (code == 39 || code == 38) && self.navigate(next_slide_num+1);
+                 (code == 39 || code == 38 || code ==32) && self.navigate(next_slide_num+1);
                  (code == 37 || code == 40)&& self.navigate(next_slide_num-1);
-             })
+             });
 
              $(".navigation .slide").bind("click",function(){
                  var nav_next_slide = $(this).attr("data-num");
                  (nav_next_slide != $(".presentation .slide.active").attr("data-num")) &&
                  self.navigate(nav_next_slide);
              })
+
          },
 
          init: function(){
              self.preedit_slide();
              self.bindEvents();
+             self.status_position();
              self.status_show(0);
+
          }
     };
     return self.init();
 }
 
-
-/*    function load_html(url){
-        $(".presentation").load(url+ " .slide",function(){
-            $(".slide:first").addClass(function(){
-                slide_handler();
-                return "active";
-            })
-        })
-    };*/
-
-/*    load_html("html_file/1.html");*/
-/*    var kk = $(".presentation").load("html/2.html");
-    console.log(kk)*/
-
-    function load_xml(data_file){
+    function load_xml(data_file){                       //загрузка файла призенации
         var url = "html_file/"+data_file+".xml";
         $.ajax({
             url: url,
@@ -112,31 +114,32 @@ function slide_handler(){
                 $(xml).find("slide").each(function(i){
                     var _this = $(this),
                         h1 = _this.find("h1").text(),
-                        content = _this.find("content").text();
+                        h2=_this.find("h2").text(),
+                        content = _this.find("content").html();
 
-                    $("<div class='slide'></div>").html("<h1>"+h1+"</h1><section>"+content+"</section>").appendTo(".presentation");
+                    $("<div class='slide'></div>").html("<h1>"+(h1 || "")+"</h1><h2>"+(h2 || "")+"</h2><section>"+
+                     (content || "")+"</section>").appendTo(".presentation");
                     (i==0) && $(".slide").addClass("active");
                 })
-            },
-            error: function(error){
-                console.log(error)
             },
             complete: function(){
                 slide_handler();
                 $(".navigation").fadeIn("def");
                 $(".presentation").fadeIn("def");
                 $(".status").fadeIn("def");
+                $(".button").fadeIn("def");
             }
         });
     }
 
 /*    load_xml();*/
 
-      function change_present(file_num,n){
+      function change_present(file_num,n){                      //фунция выбора призентации
         $(".navigation").hide();
         $(".presentation").hide();
         $(".status").hide();
         $(".present_change").hide();
+        $(".button").hide();
         $.ajax({
             url: "html_file/"+file_num+".xml",
             dataType: "xml",
@@ -144,14 +147,18 @@ function slide_handler(){
                         $(xml).find("slide").each(function(i){
                         var _this = $(this),
                             h1 = _this.find("h1").text(),
-                            content = _this.find("content").text();
+                            content = _this.find("content").html();
                         if(i>0)return;
-                        $("<div class='present' data-file='"+file_num+"'></div>").html("<h1>"+h1+"</h1><section>"+content+"</section>").appendTo(".present_change");
+                        $("<div class='present' data-file='"+file_num+"'></div>").html("<h1>"+(h1||"")+"</h1><section>"+(content||"")+"</section>").appendTo(".present_change");
                         })
             },
             error: function(error){
                 n =1;
                 $(".present_change").fadeIn("def");
+                $(".present").click(function(){
+                    var data_file=$(this).attr("data-file");
+                    load_xml(data_file);
+                });
             },
             complete:function(){
                 file_num++;
@@ -161,15 +168,6 @@ function slide_handler(){
 
     }
 
-
-    setTimeout(function(){
-        $(".present").click(function(){
-            console.log($(this));
-            var data_file=$(this).attr("data-file");
-            console.log(data_file);
-            load_xml(data_file);
-        });
-    },2000);
 
     change_present(1,0);
 

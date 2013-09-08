@@ -8,6 +8,8 @@ body{
     padding: 0;
     background: #dfdfdf;
     overflow: hidden;
+    color: #2C0E25;
+   text-shadow:  1px 1px 0 #FFFFFF
 }
 
 .presentation{
@@ -21,6 +23,7 @@ body{
 
 .presentation .slide{
     display: none;
+    width: 100%;
     width: 900px;
     height: 550px;
     overflow: hidden;
@@ -40,27 +43,56 @@ body{
 .slide.active{
     display: block;
 }
-.present h1, .present section,
-.slide h1, .slide section{
+.present h1, .present h2, .present section,
+.slide h1, .slide h2, .slide section{
     padding: 0 5%;
 }
+
+.slide p{
+    text-align: justify;
+    white-space: pre-wrap;
+    font-size:1.5em;
+}
+
+.slide h1{
+    font-size:4em;
+    text-align: center;
+    vertical-align: middle;
+}
+.slide h2{
+    font-size:3em;
+}
+
+.slide li{
+    font-size: 2.5em;
+    list-style: inside;
+    padding-left: 10px;
+}
+
+.slide img{
+    float:left;
+}
+
+.slide a{
+    font-size:1.5em;
+
+}
+
 
 .status{
     height: 2px;
     background-color: #f00;
     position: absolute;
-    bottom:15px;
-    left: 15%;
 }
 
 
 .navigation{
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.3);
     position: absolute;
     top:0;
     left:50%;
     width: 750px;
-    height: 120px;
+    height: 114px;
     margin-left: -375px;
     z-index: 1;
     overflow: hidden;
@@ -77,19 +109,22 @@ body{
 .navigation .slide{
     width: 220px;
     height: 110px;
-    font-size:45%;
+    font-size:20%;
     display: inline-block;
     background-color: #fff;
     vertical-align: top;
     overflow: hidden;
     border: 2px solid transparent;
     cursor: pointer;
-    margin:3px 3px 3px 0;
+    margin-right:3px ;
 }
 .navigation .slide:first-child{
     margin-left: 0;
 }
 
+.navigation .slide img{
+    width: 20%;
+}
 
 .navigation .slide:hover{
     border-color: #f00;
@@ -114,6 +149,7 @@ body{
     background-color:#fff;
     text-align: left;
     cursor: pointer;
+    vertical-align: top;
 
     -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
     -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -126,4 +162,30 @@ body{
 
 .present:hover{
     background-color: #f3f3f3;
+}
+
+
+.button{
+    position: absolute;
+    top:0;
+    left:50%;
+    margin-left: -90px;
+    width: 180px;
+    height: 30px;
+    opacity: 0.25;
+    text-align: center;
+    background: #fff url("img/arrow2.png") center center no-repeat ;
+    z-index: 3;
+
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+.button:hover{
+    background: #f9f9f9 url("img/arrow3.png") center center no-repeat ;
+    -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
