@@ -113,11 +113,10 @@ function slide_handler(){                           //функция работ�
             success: function(xml){
                 $(xml).find("slide").each(function(i){
                     var _this = $(this),
-                        h1 = _this.find("h1").text(),
-                        h2=_this.find("h2").text(),
+                        header = _this.find("header").html(),
                         content = _this.find("content").html();
 
-                    $("<div class='slide'></div>").html("<h1>"+(h1 || "")+"</h1><h2>"+(h2 || "")+"</h2><section>"+
+                    $("<div class='slide'></div>").html("<header>"+(header || "")+"</header><section>"+
                      (content || "")+"</section>").appendTo(".presentation");
                     (i==0) && $(".slide").addClass("active");
                 })
@@ -146,10 +145,10 @@ function slide_handler(){                           //функция работ�
             success: function(xml){
                         $(xml).find("slide").each(function(i){
                         var _this = $(this),
-                            h1 = _this.find("h1").text(),
+                            header = _this.find("header").html(),
                             content = _this.find("content").html();
                         if(i>0)return;
-                        $("<div class='present' data-file='"+file_num+"'></div>").html("<h1>"+(h1||"")+"</h1><section>"+(content||"")+"</section>").appendTo(".present_change");
+                        $("<div class='present' data-file='"+file_num+"'></div>").html("<header>"+(header||"")+"</header><section>"+(content||"")+"</section>").appendTo(".present_change");
                         })
             },
             error: function(error){
@@ -168,9 +167,7 @@ function slide_handler(){                           //функция работ�
 
     }
 
-
     change_present(1,0);
-
 
 })
 

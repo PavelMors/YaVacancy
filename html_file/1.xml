@@ -1,38 +1,54 @@
 <?xml version="1.0" encoding = "utf-8"?>
 <body>
     <slide>
-        <h1>my presentation</h1>
+        <header>
+        <h1>Резюме</h1>
+        <h2 id="center">Москаленко Павел Игоревич</h2>
+        </header>
     </slide>
     <slide>
-        <h2>Slide 1</h2>
+        <header>
+        <h2>Личные данные:</h2>
+        </header>
         <content>
-            <li>First</li>
-            <li>Second</li>
-            <li>Third</li>
-            <li>Fourth</li>
-            <li>Fifth</li>
-            <li>Sixth</li>
+            <li>Дата рождения: 15 мая 1987г.</li>
+            <li>Семейное положение:	не женат</li>
+            <li>Контанктный телефон: +38 099 958-17-46</li>
+            <li>E-mail:	<a href="#">pavel.moskolenko@gmail.ru</a></li>
+            <li>Skype: pashamors</li>
         </content>
     </slide>
     <slide>
-        <h2>Slide 2</h2>
+        <header>
+        <h2>Обазование:</h2>
+        </header>
         <content>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <li>Национальная Академия Природоохранного и Курортного Строительства</li>
+            <li>Школа верстки Яндекс</li>
+            <li>Школа разработки интерфейсов Яндекс</li>
         </content>
     </slide>
     <slide>
-        <h2>Slide 3</h2>
+        <header>
+        <h2>Навыки:</h2>
+        </header>
         <content>
-            <img src="http://sportmarket.com.ua/uploaded/pic/catalogs/products/big/1333010796-83.jpg"></img>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            <p>Работа с графикой в : CoralDraw, Adobe Illustrator, Adobe Photoshop, Adobe Flesh; </p>
+            <p>HTML/HTML5, CSS3, PHP(начальный уровень), JavaScript(начальный уровень)</p>
+            <p>Английский язык   – 	начальный уровень.<br>
+                Украинский язык    - 	свободно.</br>
+            </p>
         </content>
     </slide>
     <slide>
-        <h2>Slide 4</h2>
+        <header>
+        <h2>На Вакансию:</h2>
+        </header>
         <content>
-            <img src="http://sportmarket.com.ua/uploaded/pic/catalogs/products/big/1333010796-83.jpg"></img>
-            <a href="#">Link</a>
+            <p id="center">
+            <img style="width: 50%" src="http://www.sitetime.kiev.ua/upload/Image/articles/yandex_picture.jpg"></img><br></br>
+            <a href = "http://company.yandex.ru/job/vacancies/dev_int_kiev.xml" id="center">Разработчик поисковых интерфейсов</a>
+            </p>
         </content>
     </slide>
 </body>

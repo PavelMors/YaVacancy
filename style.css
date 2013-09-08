@@ -33,6 +33,7 @@ body{
     top:50%;
     left:50%;
     margin-left: -450px;
+    white-space: normal;
 
 
     -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -48,34 +49,57 @@ body{
     padding: 0 5%;
 }
 
-.slide p{
+.presentation .slide p{
     text-align: justify;
-    white-space: pre-wrap;
-    font-size:1.5em;
+    font-size:30px;
 }
 
-.slide h1{
-    font-size:4em;
+.presentation .slide h1{
+    font-size:62px;
     text-align: center;
     vertical-align: middle;
 }
-.slide h2{
-    font-size:3em;
+.presentation .slide h2{
+    font-size:44px;
 }
 
-.slide li{
-    font-size: 2.5em;
+.presentation .slide li{
+    font-size: 30px;
     list-style: inside;
     padding-left: 10px;
 }
 
-.slide img{
-    float:left;
+.navigation .slide a{
+    font-size:30px;
 }
 
-.slide a{
-    font-size:1.5em;
+.navigation  .slide p{
+    text-align: justify;
+    font-size:5px;
+}
 
+.navigation  .slide h1{
+    font-size:15px;
+    text-align: center;
+    vertical-align: middle;
+}
+.navigation  .slide h2{
+    font-size:13px;
+}
+
+.navigation .slide li{
+    font-size: 5px;
+    list-style: inside;
+    padding-left: 10px;
+}
+
+.navigation  .slide a{
+    font-size:5px;
+}
+
+.slide #center{
+    text-align: center;
+    float: none;
 }
 
 
@@ -163,7 +187,6 @@ body{
 .present:hover{
     background-color: #f3f3f3;
 }
-
 
 .button{
     position: absolute;
